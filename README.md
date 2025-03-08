@@ -7,3 +7,4 @@ Key Features:
 ✅ Tamper-Proof Voting System – Each voter can only vote once.
 ✅ Authority Login & Result Publishing – Election authorities can securely publish results.
 ✅ Real-Time Vote Counting – Instant vote tallying and winner announcement.
+PROGRAMMING LANGUAGES USED-1)HTML,2)CSS,3)JAVASCRIPT
