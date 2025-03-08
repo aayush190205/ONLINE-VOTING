@@ -1,5 +1,5 @@
 # ONLINE-VOTING
-he Digital Voting Machine is a secure online voting system that leverages blockchain principles to ensure transparency, security, and fairness in elections. It enables voter registration, candidate registration, voting, and result publication with authority supervision.
+The Digital Voting Machine is a secure online voting system that leverages blockchain principles to ensure transparency, security, and fairness in elections. It enables voter registration, candidate registration, voting, and result publication with authority supervision.
 
 Key Features:
 ✅ Voter & Candidate Registration – Ensures only eligible participants register.
