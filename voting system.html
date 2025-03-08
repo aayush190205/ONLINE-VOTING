@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGITAL VOTING MACHINE</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background-image: url(https://d13qu023z75971.cloudfront.net/2021/11/Electronic-Voting-Blog---Image----1-.png);
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            color: white;
+        }
+
+        .container {
+            flex: 1;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+        }
+
+        header {
+            text-align: center;
+            background: #007bff;
+            color: white;
+            padding: 10px 0;
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .authority-login-btn {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background-color: white;
+            color: #007bff;
+            padding: 8px 16px;
+            border: 2px solid #007bff;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .authority-login-btn:hover {
+            background-color: #007bff;
+            color: white;
+        }
+
+        main {
+            margin: 20px 0;
+        }
+
+        .voting-section,
+        .login-section,
+        .candidate-registration,
+        .voter-registration,
+        .authority-login {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .vote-button,
+        .login-button,
+        .register-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .vote-button:hover,
+        .login-button:hover,
+        .register-button:hover {
+            background-color: #218838;
+        }
+
+        .results-section {
+            text-align: center;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+            background-color: #333;
+            padding: 10px 0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Modal for OTP Verification */
+        .otp-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .otp-modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            color: #333;
+            width: 300px;
+        }
+
+        .otp-modal-content h3 {
+            margin: 10px 0;
+        }
+
+        .otp-modal-content input {
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .otp-modal-content button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+
+        .otp-modal-content button:hover {
+            background-color: #0056b3;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .close-modal:hover {
+            color: #000;
+        }
+
+        /* Logout button for authority */
+        .logout-button {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+
+        .publish-button {
+            background-color: #ffc107;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .publish-button:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Blockchain Voting Machine</h1>
+            <button class="authority-login-btn" id="showAuthorityLoginButton" onclick="toggleAuthorityLogin()">Authority Login</button>
+        </header>
+        
+        <main>
+            <section class="candidate-registration" id="candidateRegistration">
+                <h2>Register as a Candidate</h2>
+                <input type="text" id="candidateName" placeholder="Candidate Name" required>
+                <input type="number" id="candidateAge" placeholder="Age" required min="0">
+                <input type="date" id="candidateDOB" placeholder="Date of Birth" required>
+                <button class="register-button" onclick="registerCandidate()">Register</button>
+            </section>
+
+            <section class="voter-registration" id="voterRegistration">
+                <h2>Register as a Voter</h2>
+                <input type="text" id="voterName" placeholder="Your Name" required>
+                <input type="number" id="voterAge" placeholder="Age" required min="0">
+                <input type="date" id="voterDOB" placeholder="Date of Birth" required>
+                <button class="register-button" onclick="registerVoter()">Register</button>
+            </section>
+
+            <div class="login-section hidden" id="loginSection">
+                <h2>Voter Login</h2>
+                <input type="text" id="loginUsername" placeholder="Username (Your Name)" required>
+                <input type="password" id="loginPassword" placeholder="Password (DOB in DDMMYYYY)" required>
+                <button class="login-button" onclick="login()">Login</button>
+            </div>
+
+            <section class="voting-section hidden" id="votingSection">
+                <h2>Vote for Your Candidate</h2>
+                <div id="candidateList"></div>
+            </section>
+
+            <div class="authority-login hidden" id="authorityLoginSection">
+                <h2>Authority Login</h2>
+                <input type="text" id="authorityUsername" placeholder="Username (Authority)" required value="authority" readonly>
+                <input type="password" id="authorityPassword" placeholder="Password (ecresults)" required>
+                <button class="login-button" onclick="loginAuthority()">Login</button>
+                <button class="publish-button hidden" id="publishResultsButton" onclick="publishResults()">Publish Results</button>
+            </div>
+
+            <section class="results-section" id="results">
+                <h2>Results</h2>
+                <div id="resultsList"></div>
+                <div id="winnerAnnouncement"></div>
+                <div id="voterListAnnouncement" class="hidden"></div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; ONLINE VOTING MACHINE</p>
+    </footer>
+
+    <!-- OTP Modal -->
+    <div id="otpModal" class="otp-modal">
+        <div class="otp-modal-content">
+            <span class="close-modal" onclick="closeOTPModal()">&times;</span>
+            <h3>Your OTP: <span id="otpDisplay"></span></h3>
+            <input type="text" id="otpInput" placeholder="Enter OTP" required>
+            <button onclick="verifyOTP()">Verify OTP</button>
+        </div>
+    </div>
+
+    <script>
+        let votes = {};
+        let candidates = {};
+        let voters = {};
+        let hasVoted = {};
+        let authorityLoggedIn = false; // Track authority login status
+        let otpStorage = {}; // Store OTPs for each voter
+
+        // Generate random OTP (for demo purposes)
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000); // Generates a 6-digit OTP
+        }
+
+        function registerCandidate() {
+            const candidateName = document.getElementById('candidateName').value;
+            const candidateAge = parseInt(document.getElementById('candidateAge').value);
+            const candidateDOB = document.getElementById('candidateDOB').value;
+
+            const birthDate = new Date(candidateDOB);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            const isAdult = age > 18 || (age === 18 && monthDiff >= 0);
+
+            if (candidateName && candidateAge && isAdult) {
+                if (candidateAge === age) {  // Ensure that the provided age matches the date of birth
+                    if (!votes[candidateName]) {
+                        votes[candidateName] = 0; // Initialize vote count for candidate
+                        candidates[candidateName] = candidateDOB; // Store candidate info
+                        const candidateList = document.getElementById('candidateList');
+                        const button = document.createElement('button');
+                        button.className = 'vote-button';
+                        button.innerText = candidateName;
+                        button.onclick = () => vote(candidateName);
+                        candidateList.appendChild(button);
+
+                        // Clear the input fields
+                        document.getElementById('candidateName').value = '';
+                        document.getElementById('candidateAge').value = '';
+                        document.getElementById('candidateDOB').value = '';
+                    } else {
+                        alert('Candidate already registered!');
+                    }
+                } else {
+                    alert('The age provided does not match the date of birth.');
+                }
+            } else if (candidateAge < 18) {
+                alert('Candidate must be at least 18 years old.');
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        function registerVoter() {
+            const voterName = document.getElementById('voterName').value;
+            const voterAge = parseInt(document.getElementById('voterAge').value);
+            const voterDOB = document.getElementById('voterDOB').value;
+
+            const birthDate = new Date(voterDOB);
+            const today = new Date();
+            const age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            const isAdult = age > 18 || (age === 18 && monthDiff >= 0);
+            const formattedDOB = voterDOB.split('-').reverse().join('').replace(/-/g, ''); // Convert to DDMMYYYY
+
+            if (voterName && voterAge && isAdult) {
+                if (voterAge === age) {  // Ensure that the provided age matches the date of birth
+                    if (!voters[voterName]) {
+                        voters[voterName] = formattedDOB; // Store voter info
+                        alert('Voter registered successfully! You can now log in.');
+                        document.getElementById('voterName').value = '';
+                        document.getElementById('voterAge').value = '';
+                        document.getElementById('voterDOB').value = '';
+                        document.getElementById('loginSection').classList.remove('hidden');
+                    } else {
+                        alert('Username already exists.Please choose another');
+                    }
+                } else {
+                    alert('The age provided does not match the date of birth.');
+                }
+            } else if (voterAge < 18) {
+                alert('You must be at least 18 years old to register.');
+            } else {
+                alert('Please fill in all fields.');
+            }
+        }
+
+        function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (hasVoted[username]) {
+                alert('You have already voted.');
+                return; // Prevent login if the user has already voted
+            }
+
+            if (voters[username] && voters[username] === password) {
+                alert('Login successful!');
+
+                // Generate and store unique OTP for the voter
+                otpStorage[username] = generateOTP();
+                document.getElementById('otpDisplay').innerText = otpStorage[username];
+
+                // Clear the OTP input field before showing the modal
+                document.getElementById('otpInput').value = '';
+
+                // Show OTP Modal
+                document.getElementById('otpModal').style.display = 'flex';
+            } else {
+                alert('Invalid username or password.');
+            }
+        }
+
+        function verifyOTP() {
+            const enteredOTP = document.getElementById('otpInput').value;
+            const username = document.getElementById('loginUsername').value;
+
+            if (enteredOTP == otpStorage[username]) {
+                alert('OTP verified successfully!');
+                document.getElementById('otpModal').style.display = 'none';
+                document.getElementById('votingSection').classList.remove('hidden');
+                document.getElementById('loginSection').classList.add('hidden');
+                hasVoted[username] = false; // Reset vote status
+            } else {
+                alert('Invalid OTP. Please try again.');
+            }
+        }
+
+        function closeOTPModal() {
+            document.getElementById('otpModal').style.display = 'none';
+        }
+
+        function vote(candidate) {
+            const username = document.getElementById('loginUsername').value;
+
+            if (!hasVoted[username]) {
+                votes[candidate]++; // Increment vote count
+                hasVoted[username] = true; // Mark the user as voted
+                alert(`You voted for ${candidate}`);
+                updateResults();
+
+                // Hide voting options and log out user after voting
+                document.getElementById('votingSection').classList.add('hidden');
+                document.getElementById('loginSection').classList.remove('hidden');
+
+                // Optionally clear the username and password fields for a complete logout experience
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
+            } else {
+                alert('You have already voted.');
+            }
+        }
+
+        function loginAuthority() {
+            const username = document.getElementById('authorityUsername').value;
+            const password = document.getElementById('authorityPassword').value;
+
+            if (username === 'authority' && password === 'ecresults') {
+                alert('Authority login successful!');
+                authorityLoggedIn = true;
+
+                // Hide registration sections
+                document.getElementById('loginSection').classList.add('hidden');
+                document.getElementById('voterRegistration').classList.add('hidden');
+                document.getElementById('candidateRegistration').classList.add('hidden');
+                document.getElementById('showAuthorityLoginButton').classList.add('hidden');
+                
+                // Show Publish Results button
+                document.getElementById('publishResultsButton').classList.remove('hidden');
+
+                // Show results and voter list
+                showResults();
+                showVoterList();
+            } else {
+                alert('Invalid authority username or password.');
+            }
+        }
+
+        function showVoterList() {
+            const voterListAnnouncement = document.getElementById('voterListAnnouncement');
+            voterListAnnouncement.innerHTML = '<h3>Registered Voters:</h3>';
+            
+            for (const voter in voters) {
+                const voterItem = document.createElement('p');
+                voterItem.innerText = voter; // Display registered voter names
+                voterListAnnouncement.appendChild(voterItem);
+            }
+
+            voterListAnnouncement.classList.remove('hidden');
+            voterListAnnouncement.style.display = 'block'; // Ensure visibility
+        }
+
+        function publishResults() {
+            // Hide all registration and voting-related sections
+            document.getElementById('candidateRegistration').classList.add('hidden');
+            document.getElementById('voterRegistration').classList.add('hidden');
+            document.getElementById('votingSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.add('hidden');
+            document.getElementById('authorityLoginSection').classList.add('hidden');
+
+            // Show results to the public
+            showResults(); // Call to show results publicly
+        }
+
+        function logoutAuthority() {
+            alert('Logged out successfully!');
+            authorityLoggedIn = false;
+
+            // Hide results and logout button
+            const resultsSection = document.getElementById('results');
+            resultsSection.style.display = 'none';
+            document.getElementById('publishResultsButton').classList.add('hidden');
+
+            // Show home page sections again
+            document.getElementById('candidateRegistration').classList.remove('hidden');
+            document.getElementById('voterRegistration').classList.remove('hidden');
+            document.getElementById('showAuthorityLoginButton').classList.remove('hidden');
+
+            // Clear the results and voter list once authority logs out
+            document.getElementById("resultsList").innerHTML = '';
+            document.getElementById("winnerAnnouncement").innerText = '';
+            document.getElementById("voterListAnnouncement").innerHTML = '';
+        }
+
+        function toggleAuthorityLogin() {
+            const authorityLoginSection = document.getElementById('authorityLoginSection');
+            authorityLoginSection.classList.toggle('hidden');
+            // Hide all other sections as soon as the Authority login button is clicked
+            document.getElementById('candidateRegistration').classList.add('hidden');
+            document.getElementById('voterRegistration').classList.add('hidden');
+            document.getElementById('votingSection').classList.add('hidden');
+            document.getElementById('loginSection').classList.add('hidden');
+        }
+
+        function showResults() {
+            const resultsList = document.getElementById('resultsList');
+            resultsList.innerHTML = ''; // Clear previous results
+            let totalVotes = 0;
+
+            // Display candidate names and vote counts
+            const candidateResults = document.createElement('div');
+            candidateResults.innerHTML = '<h3>Candidate Results</h3>';
+            for (const candidate in votes) {
+                totalVotes += votes[candidate];
+                const resultItem = document.createElement('p');
+                resultItem.innerText = `${candidate}: ${votes[candidate]} votes`;
+                candidateResults.appendChild(resultItem);
+            }
+
+            // Determine the winner
+            const winner = Object.keys(votes).reduce((a, b) => votes[a] > votes[b] ? a : b);
+            const winnerCount = votes[winner];
+            let winnerAnnouncementText = '';
+
+            if (totalVotes > 0 && winnerCount > totalVotes / 2) {
+                winnerAnnouncementText = `Winner: ${winner} with ${winnerCount} votes!`;
+            } else {
+                winnerAnnouncementText = `No clear winner.`;
+            }
+
+            // Append the results to the results section
+            resultsList.appendChild(candidateResults);
+            document.getElementById('winnerAnnouncement').innerText = winnerAnnouncementText;
+
+            // Make the results visible
+            document.getElementById('results').style.display = 'block';
+        }
+
+        function updateResults() {
+            if (authorityLoggedIn) {
+                showResults();
+            }
+        }
+    </script>
+</body>
+</html>
