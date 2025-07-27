@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIGITAL VOTING MACHINE</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>E-Voting SYSTEM</h1>
+            <button class="authority-login-btn" id="showAuthorityLoginButton" onclick="toggleAuthorityLogin()">Authority Login</button>
+        </header>
+
+        <main>
+            <section class="candidate-registration" id="candidateRegistration">
+                <h2>Register as a Candidate</h2>
+                <input type="text" id="candidateName" placeholder="Candidate Name" required>
+                <input type="number" id="candidateAge" placeholder="Age" required min="0">
+                <input type="date" id="candidateDOB" placeholder="Date of Birth" required>
+                <button class="register-button" onclick="registerCandidate()">Register</button>
+            </section>
+
+            <section class="voter-registration" id="voterRegistration">
+                <h2>Register as a Voter</h2>
+                <input type="text" id="voterName" placeholder="Your Name" required>
+                <input type="number" id="voterAge" placeholder="Age" required min="0">
+                <input type="date" id="voterDOB" placeholder="Date of Birth" required>
+                <button class="register-button" onclick="registerVoter()">Register</button>
+            </section>
+
+            <div class="login-section hidden" id="loginSection">
+                <h2>Voter Login</h2>
+                <input type="text" id="loginUsername" placeholder="Username (Your Name)" required>
+                <input type="password" id="loginPassword" placeholder="Password (DOB in DDMMYYYY)" required>
+                <button class="login-button" onclick="login()">Login</button>
+            </div>
+
+            <section class="voting-section hidden" id="votingSection">
+                <h2>Vote for Your Candidate</h2>
+                <div id="candidateList"></div>
+            </section>
+
+            <div class="authority-login hidden" id="authorityLoginSection">
+                <h2>Authority Login</h2>
+                <input type="text" id="authorityUsername" placeholder="Username (Authority)" required value="authority" readonly>
+                <input type="password" id="authorityPassword" placeholder="Password (ecresults)" required>
+                <button class="login-button" onclick="loginAuthority()">Login</button>
+                <button class="publish-button hidden" id="publishResultsButton" onclick="publishResults()">Publish Results</button>
+            </div>
+
+            <section class="results-section" id="results">
+                <h2>Results</h2>
+                <div id="resultsList"></div>
+                <div id="winnerAnnouncement"></div>
+                <div id="voterListAnnouncement" class="hidden"></div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; ONLINE VOTING MACHINE</p>
+    </footer>
+
+    <!-- OTP Modal -->
+    <div id="otpModal" class="otp-modal">
+        <div class="otp-modal-content">
+            <span class="close-modal" onclick="closeOTPModal()">&times;</span>
+            <h3>Your OTP: <span id="otpDisplay"></span></h3>
+            <input type="text" id="otpInput" placeholder="Enter OTP" required>
+            <button onclick="verifyOTP()">Verify OTP</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
