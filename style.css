@@ -1,0 +1,197 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-image: url(https://d13qu023z75971.cloudfront.net/2021/11/Electronic-Voting-Blog---Image----1-.png);
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.container {
+    flex: 1;
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+}
+
+header {
+    text-align: center;
+    background: #007bff;
+    color: white;
+    padding: 10px 0;
+    position: relative;
+}
+
+h1 {
+    margin: 0;
+}
+
+.authority-login-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    background-color: white;
+    color: #007bff;
+    padding: 8px 16px;
+    border: 2px solid #007bff;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.authority-login-btn:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+main {
+    margin: 20px 0;
+}
+
+.voting-section,
+.login-section,
+.candidate-registration,
+.voter-registration,
+.authority-login {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.vote-button,
+.login-button,
+.register-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.vote-button:hover,
+.login-button:hover,
+.register-button:hover {
+    background-color: #218838;
+}
+
+.results-section {
+    text-align: center;
+    display: none;
+}
+
+footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #777;
+    background-color: #333;
+    padding: 10px 0;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Modal for OTP Verification */
+.otp-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+.otp-modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    color: #333;
+    width: 300px;
+}
+
+.otp-modal-content h3 {
+    margin: 10px 0;
+}
+
+.otp-modal-content input {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.otp-modal-content button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.otp-modal-content button:hover {
+    background-color: #0056b3;
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #aaa;
+    cursor: pointer;
+}
+
+.close-modal:hover {
+    color: #000;
+}
+
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+.publish-button {
+    background-color: #ffc107;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.publish-button:hover {
+    background-color: #e0a800;
+}
